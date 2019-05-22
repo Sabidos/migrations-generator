@@ -15,6 +15,8 @@ class DroppedTable
     public function drop($tableName, $connection = null)
     {
         //if (!is_null($connection)) $connection = 'connection(\''.$connection.'\')->';
-        return "Schema::{$connection}drop('$tableName');";
+        //return "Schema::{$connection}drop('$tableName');";
+        //if (!is_null($connection)) $connection = 'connection(\''.$connection.'\')->';
+        return "Schema::drop('$tableName');";
     }
 }
