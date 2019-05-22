@@ -3,6 +3,7 @@
 	"description": "Generates Laravel Migrations from an existing database",
 	"keywords": ["laravel", "migration", "generator", "migrations", "artisan"],
 	"license": "MIT",
+	"version" : "1.0.0",
 	"authors": [
 		{
 			"name": "Bernhard Breytenbach",
