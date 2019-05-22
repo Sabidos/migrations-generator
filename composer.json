@@ -33,5 +33,6 @@
 				"Sabidos\\MigrationsGenerator\\MigrationsGeneratorServiceProvider"
 			]
 		}
-	}
+	},
+	"minimum-stability": "dev"
 }
