@@ -9,11 +9,11 @@ use Way\Generators\Filesystem\Filesystem;
 use Way\Generators\Compilers\TemplateCompiler;
 use Illuminate\Database\Migrations\MigrationRepositoryInterface;
 
-use Xethron\MigrationsGenerator\Generators\SchemaGenerator;
-use Xethron\MigrationsGenerator\Syntax\AddToTable;
-use Xethron\MigrationsGenerator\Syntax\DroppedTable;
-use Xethron\MigrationsGenerator\Syntax\AddForeignKeysToTable;
-use Xethron\MigrationsGenerator\Syntax\RemoveForeignKeysFromTable;
+use Sabidos\MigrationsGenerator\Generators\SchemaGenerator;
+use Sabidos\MigrationsGenerator\Syntax\AddToTable;
+use Sabidos\MigrationsGenerator\Syntax\DroppedTable;
+use Sabidos\MigrationsGenerator\Syntax\AddForeignKeysToTable;
+use Sabidos\MigrationsGenerator\Syntax\RemoveForeignKeysFromTable;
 
 use Illuminate\Contracts\Config\Repository as Config;
 
@@ -29,7 +29,8 @@ class MigrateGenerateCommand extends GeneratorCommand {
 	 * The console command description.
 	 * @var string
 	 */
-	protected $description = 'Generate a migration from an existing table structure.';
+	//protected $description = 'Generate a migration from an existing table structure.';
+    protected $description = 'Gera uma migração a partir de uma tabela existente.';
 
 	/**
 	 * @var \Way\Generators\Filesystem\Filesystem
@@ -145,7 +146,8 @@ class MigrateGenerateCommand extends GeneratorCommand {
 	 */
 	public function fire()
 	{
-		$this->info( 'Using connection: '. $this->option( 'connection' ) ."\n" );
+		//$this->info( 'Using connection: '. $this->option( 'connection' ) ."\n" );
+        $this->info( 'Usando a seguinte conexão: '. $this->option( 'connection' ) ."\n" );
         if ($this->option('connection') !== $this->config->get('database.default')) {
             $this->connection = $this->option('connection');
         }
@@ -164,10 +166,11 @@ class MigrateGenerateCommand extends GeneratorCommand {
 		}
 
 		$tables = $this->removeExcludedTables($tables);
-		$this->info( 'Generating migrations for: '. implode( ', ', $tables ) );
+		$this->info( 'Generating migrations para: '. implode( ', ', $tables ) );
 
 		if (!$this->option( 'no-interaction' )) {
-			$this->log = $this->askYn('Do you want to log these migrations in the migrations table?');
+			//$this->log = $this->askYn('Do you want to log these migrations in the migrations table?');
+            $this->log = $this->askYn('Você deseja registrar essas migrações na tabela de migrações?');
 		}
 
 		if ( $this->log ) {
@@ -177,16 +180,17 @@ class MigrateGenerateCommand extends GeneratorCommand {
 				$this->call('migrate:install', $options);
 			}
 			$batch = $this->repository->getNextBatchNumber();
-			$this->batch = $this->askNumeric( 'Next Batch Number is: '. $batch .'. We recommend using Batch Number 0 so that it becomes the "first" migration', 0 );
+			//$this->batch = $this->askNumeric( 'Next Batch Number is: '. $batch .'. We recommend using Batch Number 0 so that it becomes the "first" migration', 0 );
+            $this->batch = $this->askNumeric( 'O próximo número de lote é: '. $batch .'. Recomendamos usar o Lote Número 0 para que se torne a "primeira" migração', 0 );
 		}
 
-		$this->info( "Setting up Tables and Index Migrations" );
+		$this->info( "Configurando Tabelas e Migrações de Índices" );
 		$this->datePrefix = date( 'Y_m_d_His' );
 		$this->generateTablesAndIndices( $tables );
-		$this->info( "\nSetting up Foreign Key Migrations\n" );
+		$this->info( "\nConfigurando Migrações de Chave Estrangeira\n" );
 		$this->datePrefix = date( 'Y_m_d_His', strtotime( '+1 second' ) );
 		$this->generateForeignKeys( $tables );
-		$this->info( "\nFinished!\n" );
+		$this->info( "\nConcluído!\n" );
 	}
 
 	/**
@@ -348,7 +352,8 @@ class MigrateGenerateCommand extends GeneratorCommand {
 	protected function getArguments()
 	{
 		return [
-			['tables', InputArgument::OPTIONAL, 'A list of Tables you wish to Generate Migrations for separated by a comma: users,posts,comments'],
+			//['tables', InputArgument::OPTIONAL, 'A list of Tables you wish to Generate Migrations for separated by a comma: users,posts,comments'],
+            ['tables', InputArgument::OPTIONAL, 'Uma lista de tabelas que você deseja gerar migrações separadas por uma vírgula: usuários, postagens, comentários'],
 		];
 	}
 
